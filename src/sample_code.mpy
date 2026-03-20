@@ -1,0 +1,7 @@
+count = 1
+message = "Running"
+while count < 10.5:
+    if count == 5:
+        count = count + 2
+    else:
+        count = count + 1

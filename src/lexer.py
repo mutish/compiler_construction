@@ -1,3 +1,7 @@
+from tokens import Token # from tokens.py
+
+
+
 class Scanner:
     def __init__(self, source_code):
         self.source = source_code
@@ -9,10 +13,12 @@ class Scanner:
             char = self.source[self.pos]
 
             # Skip Whitespace
-            if char.issspace():
+            if char.isspace():
                 if char == '\n':
-                    self.pos += 1
-                    continue
+                    self.line += 1
+                self.pos += 1
+                continue
+                    
             
 
             # State: Identifier or Keyword
@@ -23,8 +29,8 @@ class Scanner:
                     self.pos += 1
 
                 # Keyword check
-                if lexeme in ["if", "else", "while", "return"]:
-                    return("KEYWORD", lexeme, self.line)
+                if lexeme in ["if", "else", "while"]:
+                    return Token("KEYWORD", lexeme, self.line)
                 return ("IDENTIFIER", lexeme, self.line)
             
             # State: Number
@@ -33,19 +39,34 @@ class Scanner:
                 while self.pos < len(self.source) and (self.source[self.pos].isdigit() or self.source[self.pos] == '.'):
                     lexeme += self.source[self.pos]
                     self.pos += 1
-                return ("NUMBER", lexeme, self.line)
+                return Token("NUMBER", lexeme, self.line)
             
+            # State: Strings
+            if char == '"':
+                lexeme = '"'
+                self.pos += 1 #consume opening quote
+                while self.pos < len(self.source) and self.source[self.pos] != '"':
+                    lexeme += self.source[self.pos]
+                    self.pos += 1
+
+                    # Consume closing quote safely
+                    if self.pos < len(self.source):
+                        lexeme += '"'
+                        self.pos += 1
+                    return Token("STRING", lexeme, self.line)
+
+
             # Operators
             if char in ['+', '-', '*', '/', '!=', '=', '==']:
                 self.pos += 1
-                return ("OPERATOR", char, self.line)
+                return Token("OPERATOR", char, self.line)
             
             # Separators
             if char in ['(', ')', '{', '}', ';', ',',':']:
                 self.pos += 1
-                return ("SEPARATOR", char, self.line)
+                return Token("SEPARATOR", char, self.line)
             
             # Error handling for unrecognized characters
             raise Exception(f"Lexical Error: Illegal character '{char}' at line  {self.line}")
-        return ("EOF", None, self.line)
+        return Token("EOF", "EOF", self.line)
             
