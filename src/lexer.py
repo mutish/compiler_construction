@@ -58,8 +58,13 @@ class Scanner:
 
             # Operators
             if char in ['+', '-', '*', '/', '!=', '=', '==']:
-                self.pos += 1
-                return Token("OPERATOR", char, self.line)
+                if self.pos + 1 < len(self.source) and self.source[self.pos + 1] == '=' and char in ['=', '!']:
+                    operator = char + '='
+                    self.pos += 2
+                    return Token("OPERATOR", operator, self.line)
+                else:
+                    self.pos += 1
+                    return Token("OPERATOR", char, self.line)
             
             # Separators
             if char in ['(', ')', '{', '}', ';', ',',':']:
