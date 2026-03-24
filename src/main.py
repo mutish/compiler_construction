@@ -3,7 +3,7 @@ import sys
 
 def main():
     try:
-        with open('sample_code.mpy', 'r') as file:
+        with open('src/sample_code.mpy', 'r') as file:
             source_code = file.read()
     except FileNotFoundError:
         print("Error: sample_code.mpy not found.")

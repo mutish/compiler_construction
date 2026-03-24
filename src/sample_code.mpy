@@ -1,7 +1,12 @@
-count = 1
-message = "Running"
-while count < 10.5:
-    if count == 5:
-        count = count + 2
+count = 0
+limit = 8
+step = 1
+status = "initializing"
+
+while count < limit:
+    if count == 0:
+        status = "starting"
     else:
-        count = count + 1
+        status = "running"
+
+    count = count + step

@@ -31,7 +31,7 @@ class Scanner:
                 # Keyword check
                 if lexeme in ["if", "else", "while"]:
                     return Token("KEYWORD", lexeme, self.line)
-                return ("IDENTIFIER", lexeme, self.line)
+                return Token("IDENTIFIER", lexeme, self.line)
             
             # State: Number
             if char.isdigit():
@@ -48,17 +48,21 @@ class Scanner:
                 while self.pos < len(self.source) and self.source[self.pos] != '"':
                     lexeme += self.source[self.pos]
                     self.pos += 1
-
-                    # Consume closing quote safely
-                    if self.pos < len(self.source):
-                        lexeme += '"'
-                        self.pos += 1
+                # Consume closing quote safely
+                if self.pos < len(self.source) and self.source[self.pos] == '"':
+                    lexeme += '"'
+                    self.pos += 1
                     return Token("STRING", lexeme, self.line)
+                raise Exception(f"Lexical Error: Unterminated string literal at line {self.line}")
 
 
             # Operators
-            if char in ['+', '-', '*', '/', '!=', '=', '==']:
+            if char in ['+', '-', '*', '/', '=', '!', '<', '>']:
                 if self.pos + 1 < len(self.source) and self.source[self.pos + 1] == '=' and char in ['=', '!']:
+                    operator = char + '='
+                    self.pos += 2
+                    return Token("OPERATOR", operator, self.line)
+                if self.pos + 1 < len(self.source) and self.source[self.pos + 1] == '=' and char in ['<', '>']:
                     operator = char + '='
                     self.pos += 2
                     return Token("OPERATOR", operator, self.line)

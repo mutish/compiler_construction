@@ -1,52 +1,62 @@
 # Compiler Construction - Lexer Project
 
-This project is a simple lexical analyzer (scanner) for a mini programming language(mini-python).
-It is part of compiler construction practice and focuses on turning source code into
-tokens that can later be used by a parser.
+This project implements a basic lexical analyzer (scanner) for a mini Python-like language.
+It is a compiler construction practice project focused on converting source code into tokens
+that can be consumed by later phases (such as parsing and semantic analysis).
 
-The scanner currently recognizes:
+## What The Scanner Recognizes
+
 - Keywords: `if`, `else`, `while`
 - Identifiers
-- Numbers
-- Strings
-- Operators
-- Separators
-- End-of-file (EOF)
+- Numbers (integers and decimal values)
+- Strings (double-quoted)
+- Operators (for example `+`, `-`, `*`, `/`, `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`)
+- Separators (`(`, `)`, `{`, `}`, `;`, `,`, `:`)
+- End-of-file token (`EOF`)
 
 ## Project Structure
 
-- `src/lexer.py`: Scanner logic
-- `src/tokens.py`: Token class definition
-- `src/main.py`: Entry point that reads a source file and prints tokens
-- `src/sample_code.mpy`: Example mini-language program
+- `src/lexer.py` - Scanner logic (`Scanner` class)
+- `src/tokens.py` - Token model (`Token` class)
+- `src/main.py` - Entry point that reads source and prints tokens
+- `src/sample_code.mpy` - Example mini-language input
 
 ## How To Run
 
 1. Open a terminal in the project root:
 
-	```bash
-	cd /your_project_path/compiler_construction
-	```
+```bash
+cd /your_project_path/compiler_construction
+```
 
-2. (Optional) Create and activate your virtual environment:
+2. (Optional) Create and activate a virtual environment:
 
-	```bash
-    python3 -m venv venv
-	source venv/bin/activate
-	```
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-3. `main.py` currently reads from `sample_code.mpy`. Create the expected input file in `src/`:
+3. Run the lexer:
 
-	```bash
-	cp src/sample_code.mpy 
-	```
+```bash
+python3 src/main.py
+```
 
-4. Run the program from the `src` directory:
+The program reads `src/sample_code.mpy` and prints tokens one by one.
 
-	```bash
-	cd src
-	python3 main.py
-	```
+## Example Output
 
-You should see scanner output in the terminal as tokens are read from the sample program.
+Output follows this format:
+
+```text
+<TOKEN_TYPE, "lexeme", line N>
+```
+
+Example:
+
+```text
+<IDENTIFIER, "count", line 1>
+<OPERATOR, "=", line 1>
+<NUMBER, "0", line 1>
+```
 
