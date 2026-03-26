@@ -75,7 +75,8 @@ class Scanner:
                 self.pos += 1
                 return Token("SEPARATOR", char, self.line)
             
-            # Error handling for unrecognized characters
-            raise Exception(f"Lexical Error: Illegal character '{char}' at line  {self.line}")
+            # Emit unknown symbols as scanner output instead of stopping execution.
+            self.pos += 1
+            return Token("Unidentified", char, self.line)
         return Token("EOF", "EOF", self.line)
             
