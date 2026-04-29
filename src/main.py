@@ -67,22 +67,26 @@ def main():
     #2. PARSER PHASE
     parser = Parser(scanner_for_parser)
 
-    if show_grammar:
-        print_set_map("FIRST Sets", parser.grammar.first)
-        print_set_map("FOLLOW Sets", parser.grammar.follow)
+    # 3. Print canonical parse-tree heading before grammar artifacts
+    print("\n----Parse Tree ----")
 
-        print("\n---- LL(1) Parsing Table (filled entries) ----")
-        for nonterminal in sorted(parser.grammar.parsing_table.keys()):
-            row = parser.grammar.parsing_table[nonterminal]
-            for terminal in sorted(row.keys()):
-                production = " ".join(row[terminal])
-                print(f"M[{nonterminal}, {terminal}] = {production}")
+    #show FIRST / FOLLOW / LL(1) table
+    print_set_map("FIRST Sets", parser.grammar.first)
+    print_set_map("FOLLOW Sets", parser.grammar.follow)
+
+    print("\n---- LL(1) Parsing Table (filled entries) ----")
+    for nonterminal in sorted(parser.grammar.parsing_table.keys()):
+        row = parser.grammar.parsing_table[nonterminal]
+        for terminal in sorted(row.keys()):
+            production = " ".join(row[terminal])
+            print(f"M[{nonterminal}, {terminal}] = {production}")
 
     try:
         if trace:
-            print("\n---- Parser Trace (Scanner Input + Parser Actions) ----")
+            print("\n---- Parser Trace ----")
         parse_tree = parser.parse()
-        print("\n---- Parse Tree ----")
+        # 7. Show the parse tree and final parse status
+        print()
         parse_tree.print_tree()
         if parser.errors:
             print("\nPARSING COMPLETED WITH RECOVERY")
