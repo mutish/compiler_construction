@@ -1,7 +1,5 @@
 from tokens import Token # from tokens.py
 
-
-
 class Scanner:
     def __init__(self, source_code):
         self.source = source_code

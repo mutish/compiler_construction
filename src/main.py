@@ -83,7 +83,7 @@ def main():
 
     try:
         if trace:
-            print("\n---- Parser Trace ----")
+            print("\n---- Parser Tree ----")
         parse_tree = parser.parse()
         # 7. Show the parse tree and final parse status
         print()

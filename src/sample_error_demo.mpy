@@ -1,0 +1,12 @@
+count = 0
+limit = 8
+step = 1
+status = "initializing"
+
+while count < limit
+    if count == 0:
+        status = "starting"
+    else:
+        status = "running"
+
+count = count + step
