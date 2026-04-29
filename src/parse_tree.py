@@ -10,6 +10,7 @@ class ParseTreeNode:
         lexeme_str = f"('{self.lexeme}')" if self.lexeme else ""
         node_display = f"{self.symbol}{lexeme_str}"
 
+    
         if is_root:
             print(node_display)
             new_prefix = prefix
@@ -18,7 +19,8 @@ class ParseTreeNode:
             print(f"{prefix}{connector}{node_display}")
             new_prefix = prefix + ("    " if is_last else "│   ")
 
-        child_count = len(self.children)
-        for i, child in enumerate(self.children):
+        visible = [c for c in self.children if c.symbol != "ε"]
+        child_count = len(visible)
+        for i, child in enumerate(visible):
             child_is_last = (i == child_count - 1)
             child.print_tree(new_prefix, child_is_last, is_root=False)
