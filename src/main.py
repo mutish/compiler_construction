@@ -9,7 +9,24 @@ def print_set_map(title, set_map):
         values = ", ".join(sorted(set_map[symbol]))
         print(f"{symbol}: {{ {values} }}")
 
+
+def parse_args(argv):
+    filename = 'src/sample_code.mpy'
+    trace = True
+    show_grammar = False
+
+    for arg in argv:
+        if arg == '--no-trace':
+            trace = False
+        elif arg == '--show-grammar':
+            show_grammar = True
+        elif not arg.startswith('--'):
+            filename = arg
+
+    return filename, trace, show_grammar
+
 def main():
+    filename, trace, show_grammar = parse_args(sys.argv[1:])
     try:
         filename = sys.argv[1] if len(sys.argv) > 1 else 'src/sample_code.mpy'
         with open(filename, 'r') as file:
@@ -17,7 +34,7 @@ def main():
         # with open('src/sample_code.mpy', 'r') as file:
         #     source_code = file.read()
     except FileNotFoundError:
-        print("Error: sample_code.mpy not found.")
+        print(f"Error: input file not found: {filename}")
         return
     
     #1. TOKENISATION
