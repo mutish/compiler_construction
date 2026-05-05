@@ -1,0 +1,20 @@
+● <program> ::= <stmt_list>
+● <stmt_list> ::= <stmt> <stmt_list_prime>
+● <stmt_list_prime> ::= <stmt> <stmt_list_prime> |epsilon
+● <stmt> ::= <assignment> | <if_stmt> | <while_stmt>
+● <assignment> ::= ID "=" <expr>
+● <if_stmt> ::= "if" <cond> ":" <stmt_list> <else_part>
+● <else_part> ::= "else" ":" <stmt_list> | epsilon
+● <while_stmt> ::= "while" <cond> ":" <stmt_list>
+● <cond> ::= <expr> RELOP <expr>
+● <expr> ::= <term> <expr_prime>
+● <expr_prime> ::= "+" <expr> | "-" <expr> |  "=" <exp>| </exp>epsilon
+● <term> ::= ID | NUM | STR
+
+
+
+x32 = 40
+if x32 == 100:
+    x32 = x32 + 10
+    else:
+        x32 = x32 - 5

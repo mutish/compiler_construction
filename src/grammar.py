@@ -24,9 +24,10 @@ class LL1Grammar:
             "<while_stmt>":       [["while", "<cond>", ":", "<stmt>"]],
             "<cond>":             [["<expr>", "RELOP", "<expr>"]],
             "<expr>":             [["<term>", "<expr_prime>"]],
-            "<expr_prime>":       [["+", "<expr>"], ["-", "<expr>"], [self.EPSILON]],
+            "<expr_prime>":       [["+", "<expr>"], ["-", "<expr>"], ["*", "<expr>"], ["/", "<expr>"], [self.EPSILON]],
             "<term>":             [["ID"], ["NUM"], ["STR"]],
         }
+        
 
         self.nonterminals = set(self.productions.keys())
         self.terminals = self._collect_terminals()
