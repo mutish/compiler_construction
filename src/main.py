@@ -1,7 +1,12 @@
+import ast
+
 from lexer import Scanner
 from parser import Parser
 import sys
-
+from icg import ICGenerator
+icg = ICGenerator()
+icg.generate(ast)
+icg.print_quads()
 
 def print_set_map(title, set_map):
     print(f"\n---- {title} ----")
