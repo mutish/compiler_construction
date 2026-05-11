@@ -7,7 +7,7 @@ class ASTBuilder:
     """
 
     def build(self, node):
-        "Main dispatcher that routes a parsetreenode to the right builder method"
+        "Main dispatcher that routes a parse tree node to the right builder method"
         if not node:
             return None
         
@@ -23,7 +23,7 @@ class ASTBuilder:
         elif node.symbol == "<while_stmt>":
             return self.build_while_stmt(node)
         
-        raise Exception(f"ASTBuilder: UNhandled node symbol: {node.symbol}")
+        raise Exception(f"ASTBuilder: Unhandled node symbol: {node.symbol}")
     
     def build_program(self,node):
         # program -> stmt_list
@@ -57,6 +57,10 @@ class ASTBuilder:
         expr = self.build_expr(node.children[2])
         return Assign(target, expr)
     
+    def build_stmt(self, node):
+        """Route a statement node to the appropriate builder"""
+        return self.build(node)
+    
     def build_if_stmt(self, node):
         # <if_stmt> -> "if" <cond> ":" <stmt> "else" ":" <stmt>
         cond = self.build_cond(node.children[1])
@@ -85,23 +89,24 @@ class ASTBuilder:
         
 
     def build_expr_prime(self, node, left):
-        # <expr_prime> -> ("+"|"-") <term> <expr_prime> | ε
+        # <expr_prime> -> "+" <expr> | "-" <expr> | epsilon
+        # When expr_prime has an operator, node.children[1] is <expr>, not <term>
         if not node.children or node.children[0].symbol in ("ε", "epsilon"):
             return left  # no math op, return term
         
         op = node.children[0].lexeme
-        right = self.build_term(node.children[1])
-    
+        # node.children[1] is an <expr>, which recursively builds properly
+        right = self.build_expr(node.children[1])
         return BinOp(op, left, right)
 
     def build_term(self, node):
-        # <term> -> ID | NUM | STRING
-        child = node.symbol[0]
+        # <term> -> ID | NUM | STR
+        child = node.children[0]
         if child.symbol == "ID":
             return Identifier(child.lexeme)
         elif child.symbol == "NUM":
             return Number(int(child.lexeme))
-        elif child.symbol == "STRING":
+        elif child.symbol == "STR":
             return StringLiteral(child.lexeme)
 
         raise Exception(f"ASTBuilder: Undefined term type: {child.symbol}")

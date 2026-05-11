@@ -1,5 +1,5 @@
 while x > 5:
-    if msg = "Hello":
+    if msg == "Hello":
         x = x + 2
-        else:
-            x = x - 1
+    else:
+        x = x - 1

@@ -1,12 +1,11 @@
 import ast
 
+from ast_builder import ASTBuilder
 from lexer import Scanner
+import parse_tree
 from parser import Parser
 import sys
 from icg import ICGenerator
-icg = ICGenerator()
-icg.generate(ast)
-icg.print_quads()
 
 def print_set_map(title, set_map):
     print(f"\n---- {title} ----")
@@ -99,6 +98,14 @@ def main():
                 print(f"- {issue}")
         else:
             print("\nSUCCESS: Input successfully parsed")
+        
+        # 8. Build AST and generate intermediate code
+        ast_builder = ASTBuilder()
+        ast = ast_builder.build(parse_tree)
+        
+        icg = ICGenerator()
+        icg.generate(ast)
+        icg.print_quads()
     except SyntaxError as e:
         print(f"\nPARSING ERROR: {e}")
 

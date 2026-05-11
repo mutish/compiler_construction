@@ -121,7 +121,7 @@ class Parser:
                 else:
                     self.error_handler.record(
                         f"Line {self.current_token.line}: "
-                        f"No rule for '{top_symbol}' with lookahead '{self.current_token.value}'"
+                        f"No rule for '{top_symbol}'"
                     )
                     # Panic-mode recovery – advance scanner until sync token.
                     self.current_token = self.error_handler.synchronize(

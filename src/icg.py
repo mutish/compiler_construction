@@ -1,8 +1,6 @@
 from quadruple import Quadruple
-from ast_nodes import (
-    Program, Assign, IfStmt, WhileStmt,
-    Condition, BinOp, Identifier, Number, StringLiteral,
-)
+from ast_nodes import *
+from ast_builder import ASTBuilder
 
 
 class ICGenerator:
