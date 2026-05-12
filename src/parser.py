@@ -119,9 +119,17 @@ class Parser:
                     for child in reversed(child_nodes):
                         self.stack.append((child.symbol, child))
                 else:
+                    # Generate a helpful error message with expected tokens
+                    sync_set = self.grammar.follow.get(top_symbol, set())
+                    expected = sorted(sync_set) if sync_set else ["EOF"]
+                    expected_str = "', '".join(expected[:3])  # Show first 3 expected tokens
+                    if len(expected) > 3:
+                        expected_str += f", ... ({len(expected)} total)"
+                    
                     self.error_handler.record(
                         f"Line {self.current_token.line}: "
-                        f"No rule for '{top_symbol}'"
+                        f"Unexpected '{self.current_token.value}' in {top_symbol} "
+                        f"(expected: '{expected_str}')"
                     )
                     # Panic-mode recovery – advance scanner until sync token.
                     self.current_token = self.error_handler.synchronize(
