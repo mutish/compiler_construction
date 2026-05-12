@@ -1,0 +1,7 @@
+
+if x > 10
+    total = 1
+
+result = y + 5
+while count < < 10:
+    count = count + 1

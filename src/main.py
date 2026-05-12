@@ -70,6 +70,7 @@ def main():
 
     #2. PARSER PHASE
     parser = Parser(scanner_for_parser)
+    
 
     # 3. Print canonical parse-tree heading before grammar artifacts
     print("\n----Parse Tree ----")
@@ -96,16 +97,16 @@ def main():
             print("\nPARSING COMPLETED WITH RECOVERY")
             for issue in parser.errors:
                 print(f"- {issue}")
+            print("\n[!] ICG Aborted: Input contains syntax errors.")
         else:
             print("\nSUCCESS: Input successfully parsed")
+            ast_builder = ASTBuilder()
+            ast = ast_builder.build(parse_tree)
         
-        # 8. Build AST and generate intermediate code
-        ast_builder = ASTBuilder()
-        ast = ast_builder.build(parse_tree)
+            icg = ICGenerator()
+            icg.generate(ast)
+            icg.print_quads()
         
-        icg = ICGenerator()
-        icg.generate(ast)
-        icg.print_quads()
     except SyntaxError as e:
         print(f"\nPARSING ERROR: {e}")
 
